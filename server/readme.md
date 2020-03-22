@@ -3,7 +3,7 @@
 1. 学习 gin 的使用
    1. 如何解析 json 数据？[Model binding and validation](https://gin-gonic.com/docs/examples/binding-and-validation/)
 2. 加入 mysql-driver 
-3. 后端基础功能实现，准备好开发业务
+3. 后端基础功能实现，准备好开发业务 [**2020.03.22**]
 4. 前端使用 next.js apollo-react client 实现 ssr
 5. 前端调通后端接口，准备好开发业务
 6. 开始按照开发顺序进行开发
@@ -36,7 +36,10 @@
 
 ## wiki
 
-1. ...
+1. 编译成 windows app
+```bash
+sudo GOOS=windows GOARCH=386 go build -o server.exe
+```
 2. ...
    
 
