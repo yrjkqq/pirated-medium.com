@@ -41,11 +41,14 @@ A pirate version of medium.com
 
 ## wiki
 
-1. 编译成 windows app
-```bash
-sudo GOOS=windows GOARCH=386 go build -o server.exe
-```
-2. ...
+1. server 编译成 windows app
+   ```bash
+   sudo GOOS=windows GOARCH=386 go build -o server.exe
+   ```
+2. windows 下批量转换 CRLF to LF, 安装 dos2unix.exe, [递归转换](https://waterlan.home.xs4all.nl/dos2unix/zh_CN/man1/dos2unix.htm)
+   ```shell
+   for /R %G in (*.tsx) do dos2unix "%G"
+   ```
    
 
 ## todo
@@ -54,3 +57,7 @@ sudo GOOS=windows GOARCH=386 go build -o server.exe
 2. ...
 
 
+## inspired by
+
+1. https://github.com/zhxuc/wipi
+2. https://github.com/wenjianzhang/go-admin

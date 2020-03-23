@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import Link from "next/link";
-import Layout from "../components/Layout";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import Layout from '../components/Layout';
 
 const AboutPage: React.FunctionComponent = () => {
   const [count] = useState(0);
@@ -11,7 +11,7 @@ const AboutPage: React.FunctionComponent = () => {
       <div>{count}</div>
       <p>
         <Link href="/">
-          <a>Go home</a>
+          <a href="/">Go home</a>
         </Link>
       </p>
     </Layout>

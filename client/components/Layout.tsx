@@ -1,10 +1,10 @@
-import * as React from 'react'
-import Link from 'next/link'
-import Head from 'next/head'
+import * as React from 'react';
+import Link from 'next/link';
+import Head from 'next/head';
 
 type Props = {
-  title?: string
-}
+  title?: string;
+};
 
 const Layout: React.FunctionComponent<Props> = ({
   children,
@@ -19,15 +19,15 @@ const Layout: React.FunctionComponent<Props> = ({
     <header>
       <nav>
         <Link href="/">
-          <a>Home</a>
+          <a href="/">Home</a>
         </Link>{' '}
         |{' '}
         <Link href="/about">
-          <a>About</a>
+          <a href="/about">About</a>
         </Link>{' '}
         |{' '}
         <Link href="/users">
-          <a>Users List</a>
+          <a href="/users">Users List</a>
         </Link>{' '}
         | <a href="/api/users">Users API</a>
       </nav>
@@ -35,9 +35,9 @@ const Layout: React.FunctionComponent<Props> = ({
     {children}
     <footer>
       <hr />
-      <span>I'm here to stay (Footer)</span>
+      <span>I&apos;m here to stay (Footer)</span>
     </footer>
   </div>
-)
+);
 
-export default Layout
+export default Layout;
