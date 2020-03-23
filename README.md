@@ -61,3 +61,10 @@ A pirate version of medium.com
 
 1. https://github.com/zhxuc/wipi
 2. https://github.com/wenjianzhang/go-admin
+
+
+## Acknowledge
+
+1. [with-apollo-and-redux](https://github.com/zeit/next.js/tree/canary/examples/with-apollo-and-redux)
+2. [typesafe-actions](https://github.com/piotrwitek/typesafe-actions#action-helpers)
+3. [react-redux-typescript-guide](https://github.com/piotrwitek/react-redux-typescript-guide#reducers)

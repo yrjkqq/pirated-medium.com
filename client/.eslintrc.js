@@ -28,7 +28,7 @@ module.exports = {
     'object-curly-newline': 0,
     'react/jsx-props-no-spreading': 1,
     'import/no-cycle': 1,
-    'import/prefer-default-export': 1,
+    'import/prefer-default-export': 0,
     'react/prop-types': 0,
   },
   settings: {
