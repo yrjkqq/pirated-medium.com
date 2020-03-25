@@ -8,11 +8,7 @@ import { ApolloClient } from "apollo-client";
 import fetch from "node-fetch";
 import { createHttpLink } from "apollo-link-http";
 import Express from "express";
-import {
-  StaticRouter,
-  __RouterContext as OnefxRouterContext
-} from "react-router-v4";
-import { __RouterContext as WebOnefxRouterContext } from "react-router";
+import { StaticRouter } from "react-router-v4";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { getDataFromTree } from "@apollo/react-ssr";
 
@@ -64,13 +60,7 @@ app.use((req, res) => {
   const App = (
     <ApolloProvider client={client}>
       <StaticRouter location={req.url} context={context}>
-        <OnefxRouterContext.Consumer>
-          {context => (
-            <WebOnefxRouterContext.Provider value={context}>
-              <Layout />
-            </WebOnefxRouterContext.Provider>
-          )}
-        </OnefxRouterContext.Consumer>
+        <Layout />
       </StaticRouter>
     </ApolloProvider>
   );

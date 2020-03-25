@@ -173,3 +173,34 @@
          </ApolloProvider>
       );
       ```
+   8. 第四次修复: 将 react-router-v4 的 对 react-router 的依赖改为 peerDependencies, 这样本地仓库使用的就是本地直接安装的 react-router 而不是 react-router-v4 的 rr
+      ```json
+      {
+         "name": "react-router-v4",
+         "version": "1.0.5",
+         "main": "index.js",
+         "license": "MIT",
+         "peerDependencies": {
+            "react-router": "^5.1.2",
+            "react-router-dom": "^5.1.2"
+         },
+         "devDependencies": {
+            "@types/react-router": "^5.1.4",
+            "@types/react-router-dom": "^5.1.3"
+         }
+      }
+
+      ```
+      ```jsx
+      // 本地仓库 index.js 其他不变
+      import { StaticRouter } from "react-router-v4";
+
+      // ...
+      const App = (
+         <ApolloProvider client={client}>
+            <StaticRouter location={req.url} context={context}>
+            <Layout />
+            </StaticRouter>
+         </ApolloProvider>
+      );
+      ```
