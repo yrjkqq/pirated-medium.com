@@ -8,7 +8,11 @@ import { ApolloClient } from "apollo-client";
 import fetch from "node-fetch";
 import { createHttpLink } from "apollo-link-http";
 import Express from "express";
-import { StaticRouter } from "react-router";
+import {
+  StaticRouter,
+  __RouterContext as OnefxRouterContext
+} from "react-router-v4";
+import { __RouterContext as WebOnefxRouterContext } from "react-router";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { getDataFromTree } from "@apollo/react-ssr";
 
@@ -57,11 +61,16 @@ app.use((req, res) => {
     key: "value"
   };
 
-  // The client-side App will instead use <BrowserRouter>
   const App = (
     <ApolloProvider client={client}>
       <StaticRouter location={req.url} context={context}>
-        <Layout />
+        <OnefxRouterContext.Consumer>
+          {context => (
+            <WebOnefxRouterContext.Provider value={context}>
+              <Layout />
+            </WebOnefxRouterContext.Provider>
+          )}
+        </OnefxRouterContext.Consumer>
       </StaticRouter>
     </ApolloProvider>
   );
@@ -69,17 +78,21 @@ app.use((req, res) => {
   // rendering code (see below)
 
   // / during request (see above)
-  getDataFromTree(App).then(() => {
-    // We are ready to render for real
-    const content = ReactDOMServer.renderToString(App);
-    const initialState = client.extract();
+  getDataFromTree(App)
+    .then(() => {
+      // We are ready to render for real
+      const content = ReactDOMServer.renderToString(App);
+      const initialState = client.extract();
 
-    const html = <Html content={content} state={initialState} />;
+      const html = <Html content={content} state={initialState} />;
 
-    res.status(200);
-    res.send(`<!doctype html>\n${ReactDOMServer.renderToStaticMarkup(html)}`);
-    res.end();
-  });
+      res.status(200);
+      res.send(`<!doctype html>\n${ReactDOMServer.renderToStaticMarkup(html)}`);
+      res.end();
+    })
+    .catch(error => {
+      console.log("failed: ", error);
+    });
 });
 
 app.listen(basePort, () =>

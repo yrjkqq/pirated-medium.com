@@ -1,8 +1,9 @@
 import React from "react";
-import { withRouter } from "react-router";
-const InnerPage = ({ location }) => {
+import { useLocation } from "react-router";
+const InnerPage = () => {
+  const location = useLocation();
   console.log(location);
   return <div>InnerPage</div>;
 };
 
-export default withRouter(InnerPage);
+export default InnerPage;

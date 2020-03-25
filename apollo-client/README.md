@@ -1,3 +1,175 @@
 # reference
 
 1. [@apollo/react-ssr](https://www.apollographql.com/docs/react/performance/server-side-rendering/#server-side-rendering)
+
+# debug
+
+1. 当使用的 StaticRouter 与当前仓库的 react-router 版本不一样时, 会报错, 使用以下方式复现
+   1. 当前仓库上一级目录新建 react-router-v4 版本
+      1. package.json
+       ```json
+       {
+         "name": "react-router-v4",
+         "version": "1.0.0",
+         "main": "index.js",
+         "license": "MIT",
+         "dependencies": {
+           "react-router": "4"
+         },
+         "devDependencies": {
+           "@types/react-router": "4"
+         }
+       }
+       ```
+      2. index.js
+       ```javascript
+       const Router = require("react-router");
+       module.exports = Router.StaticRouter;
+       ```
+   2. 添加本地安装的 RRv4 包, 并导入到当前仓库
+      ```bash
+      yarn add file:../react-router-v4
+      ```
+      1. 导入后
+      ```json
+      {
+        "dependencies": {
+        "react-router-v4": "file:../react-router-v4"
+      }
+      ```
+   3. 导入到 index.js
+      ```js
+      import StaticRouter from "react-router-v4";
+      ```
+   4. 启动报错
+      ```js
+      (node:8912) UnhandledPromiseRejectionWarning: Error: Invariant failed: You should not use <Link> outside a <Router>
+          at invariant (C:\code\pirated-medium.com\apollo-client\node_modules\tiny-invariant\dist\tiny-invariant.cjs.js:13:11)
+          at Object.children (C:\code\pirated-medium.com\apollo-client\node_modules\react-router-dom\modules\Link.js:84:11)
+          at ReactDOMServerRenderer.render (C:\code\pirated-medium.com\apollo-client\node_modules\react-dom\cjs\react-dom-server.node.development.js:3635:55)
+          at ReactDOMServerRenderer.read (C:\code\pirated-medium.com\apollo-client\node_modules\react-dom\cjs\react-dom-server.node.development.js:3373:29)
+          at renderToStaticMarkup (C:\code\pirated-medium.com\apollo-client\node_modules\react-dom\cjs\react-dom-server.node.development.js:4004:27)
+          at process (C:\code\pirated-medium.com\apollo-client\node_modules\@apollo\react-ssr\lib\react-ssr.cjs.js:38:16)
+          at process._tickCallback (internal/process/next_tick.js:68:7)
+      (node:8912) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
+      (node:8912) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with 
+      a non-zero exit code.
+      ```
+   5. 第一次修复
+      1. react-router-v4 包升级到 RRv5 
+          ```bash
+          yarn version
+          yarn upgrade @types/react-router@^latest react-router@^latest
+          ```
+      2. 当前仓库
+          ```bash
+          yarn add file:../react-router-v4
+          ```
+      3. 仍然报错
+         ```js
+         failed:  Error: Invariant failed: You should not use <Link> outside a <Router>
+         at invariant (C:\code\pirated-medium.com\apollo-client\node_modules\tiny-invariant\dist\tiny-invariant.cjs.js:13:11)
+         at Object.children (C:\code\pirated-medium.com\apollo-client\node_modules\react-router-dom\modules\Link.js:84:11)
+         at ReactDOMServerRenderer.render (C:\code\pirated-medium.com\apollo-client\node_modules\react-dom\cjs\react-dom-server.node.development.js:3635:55)
+         at ReactDOMServerRenderer.read (C:\code\pirated-medium.com\apollo-client\node_modules\react-dom\cjs\react-dom-server.node.development.js:3373:29)
+         at renderToStaticMarkup (C:\code\pirated-medium.com\apollo-client\node_modules\react-dom\cjs\react-dom-server.node.development.js:4004:27)
+         at process (C:\code\pirated-medium.com\apollo-client\node_modules\@apollo\react-ssr\lib\react-ssr.cjs.js:38:16)
+         at process._tickCallback (internal/process/next_tick.js:68:7)
+         ```
+      4. 研究源码发现, react-router-dom 的 Link 组件会使用到 ```<RouterContext.Consumer>``` 提供提供 context, 如果 context 为 null 则会报错, 而 RouterContext 导自本仓库的 react-router 包, 这个包创建的 context 和 react-router-v4 创建的 context 不是同一个, 所以 Link 组件读取不到
+   6. 尝试同时也从 react-router-v4 导入 react-router-dom 的 ```<Link>``` 来尝试修复这个问题
+      1. 可以修复
+      ```jsx
+      // react-router-v4 .index.js
+      "use strict";
+
+      const { StaticRouter } = require("react-router");
+
+      const { Link } = require("react-router-dom");
+
+      exports.StaticRouter = StaticRouter;
+      exports.Link = Link;
+
+      // 本地仓库 Layout.js
+      // ./routes/Layout.js
+      import { Route, Switch } from "react-router";
+      import { Link } from "react-router-v4";
+      import React from "react";
+
+      // A Routes file is a good shared entry-point between client and server
+      import routes from "./index";
+
+      const Layout = () => (
+      <div>
+         <nav>
+            <ul>
+            <li>
+               <Link to="/">Home</Link>
+            </li>
+            <li>
+               <Link to="/another">Another page</Link>
+            </li>
+            </ul>
+         </nav>
+
+         {/* New <Switch> behavior introduced in React Router v4
+            https://reacttraining.com/react-router/web/api/Switch */}
+         <Switch>
+            {routes.map(route => (
+            <Route key={route.name} {...route} />
+            ))}
+         </Switch>
+      </div>
+      );
+
+      export default Layout;
+
+      ```
+
+      2. 本地仓库重新导入 react-router-v4 后, 不会再报同样的错
+      ```js
+      failed:  Error: Invariant failed: You should not use <Switch> outside a <Router>
+      at invariant (C:\code\pirated-medium.com\apollo-client\node_modules\tiny-invariant\dist\tiny-invariant.cjs.js:13:11)
+      at Object.children (C:\code\pirated-medium.com\apollo-client\node_modules\react-router\modules\Switch.js:17:11)
+      at ReactDOMServerRenderer.render (C:\code\pirated-medium.com\apollo-client\node_modules\react-dom\cjs\react-dom-server.node.development.js:3635:55)
+      at ReactDOMServerRenderer.read (C:\code\pirated-medium.com\apollo-client\node_modules\react-dom\cjs\react-dom-server.node.development.js:3373:29)
+      at renderToStaticMarkup (C:\code\pirated-medium.com\apollo-client\node_modules\react-dom\cjs\react-dom-server.node.development.js:4004:27)
+      at process (C:\code\pirated-medium.com\apollo-client\node_modules\@apollo\react-ssr\lib\react-ssr.cjs.js:38:16)
+      at process._tickCallback (internal/process/next_tick.js:68:7)
+      ```
+   7. 第三次修复: 从 react-router-v4 导入所有 Link Route 等组件不方便, 可以只导入 __RouterContext 然后透传 context 给本仓库的 react-router 的 RouterContext.Provider 也能解决问题
+      1. 可以修复
+      ```jsx
+      // react-router-v4 .index.js
+      "use strict";
+
+      const { StaticRouter, __RouterContext } = require("react-router");
+
+      const { Link } = require("react-router-dom");
+
+      exports.StaticRouter = StaticRouter;
+      exports.__RouterContext = __RouterContext;
+      exports.Link = Link;
+
+      // 本地仓库 index.js 其他不变
+      import {
+      StaticRouter,
+      __RouterContext as OnefxRouterContext
+      } from "react-router-v4";
+      import { __RouterContext as WebOnefxRouterContext } from "react-router";
+
+      // ...
+      const App = (
+         <ApolloProvider client={client}>
+            <StaticRouter location={req.url} context={context}>
+            <OnefxRouterContext.Consumer>
+               {context => (
+                  <WebOnefxRouterContext.Provider value={context}>
+                  <Layout />
+                  </WebOnefxRouterContext.Provider>
+               )}
+            </OnefxRouterContext.Consumer>
+            </StaticRouter>
+         </ApolloProvider>
+      );
+      ```
