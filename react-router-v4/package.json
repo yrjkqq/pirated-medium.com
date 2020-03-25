@@ -1,0 +1,12 @@
+{
+  "name": "react-router-v4",
+  "version": "1.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "react-router": "^5.1.2"
+  },
+  "devDependencies": {
+    "@types/react-router": "^5.1.4"
+  }
+}
