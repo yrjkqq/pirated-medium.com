@@ -1,2 +1,3 @@
 server/logs
 .idea
+apollo-client/node_modules
