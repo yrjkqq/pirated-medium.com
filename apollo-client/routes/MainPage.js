@@ -1,5 +1,5 @@
 import React from "react";
-const MainPage = () => {
+const MainPage = ({ location }) => {
   return <div>MainPage</div>;
 };
 

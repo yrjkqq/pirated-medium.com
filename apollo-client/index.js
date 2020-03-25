@@ -1,11 +1,11 @@
 // This example uses React Router v4, although it should work
 // equally well with other routers that support SSR
 
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import React from "react";
+import ReactDOMServer from "react-dom/server";
 import { ApolloProvider } from "@apollo/react-common";
 import { ApolloClient } from "apollo-client";
-import fetch from 'node-fetch';
+import fetch from "node-fetch";
 import { createHttpLink } from "apollo-link-http";
 import Express from "express";
 import { StaticRouter } from "react-router";
@@ -53,7 +53,9 @@ app.use((req, res) => {
     cache: new InMemoryCache()
   });
 
-  const context = {};
+  const context = {
+    key: "value"
+  };
 
   // The client-side App will instead use <BrowserRouter>
   const App = (
