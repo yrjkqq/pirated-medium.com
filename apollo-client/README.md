@@ -90,7 +90,7 @@
       exports.StaticRouter = StaticRouter;
       exports.Link = Link;
 
-      // 本地仓库 Layout.js
+      // 当前项目 Layout.js
       // ./routes/Layout.js
       import { Route, Switch } from "react-router";
       import { Link } from "react-router-v4";
@@ -126,7 +126,7 @@
 
       ```
 
-      2. 本地仓库重新导入 react-router-v4 后, 不会再报同样的错
+      2. 当前项目重新导入 react-router-v4 后, 不会再报同样的错
       ```js
       failed:  Error: Invariant failed: You should not use <Switch> outside a <Router>
       at invariant (C:\code\pirated-medium.com\apollo-client\node_modules\tiny-invariant\dist\tiny-invariant.cjs.js:13:11)
@@ -151,7 +151,7 @@
       exports.__RouterContext = __RouterContext;
       exports.Link = Link;
 
-      // 本地仓库 index.js 其他不变
+      // 当前项目 index.js 其他不变
       import {
       StaticRouter,
       __RouterContext as OnefxRouterContext
@@ -173,7 +173,7 @@
          </ApolloProvider>
       );
       ```
-   8. 第四次修复: 将 react-router-v4 对 react-router 的依赖改为 [peerDependencies](https://stackoverflow.com/a/34645112), 这样本地仓库使用的就是本地直接安装的 react-router 而不是 react-router-v4 的 rr
+   8. 第四次修复: 将 react-router-v4 对 react-router 的依赖改为 [peerDependencies](https://stackoverflow.com/a/34645112), 这样当前项目使用的就是本地直接安装的 react-router 而不是 react-router-v4 的 rr; 只能修改 react-router-v4 为 peerDependencies 而不是当前项目
       ```json
       {
          "name": "react-router-v4",
@@ -192,7 +192,7 @@
 
       ```
       ```jsx
-      // 本地仓库 index.js 其他不变
+      // 当前项目 index.js 其他不变
       import { StaticRouter } from "react-router-v4";
 
       // ...
