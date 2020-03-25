@@ -173,7 +173,7 @@
          </ApolloProvider>
       );
       ```
-   8. 第四次修复: 将 react-router-v4 的 对 react-router 的依赖改为 peerDependencies, 这样本地仓库使用的就是本地直接安装的 react-router 而不是 react-router-v4 的 rr
+   8. 第四次修复: 将 react-router-v4 对 react-router 的依赖改为 [peerDependencies](https://stackoverflow.com/a/34645112), 这样本地仓库使用的就是本地直接安装的 react-router 而不是 react-router-v4 的 rr
       ```json
       {
          "name": "react-router-v4",
