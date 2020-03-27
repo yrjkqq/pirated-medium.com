@@ -1,9 +1,9 @@
-// This example uses React Router v4, although it should work
-// equally well with other routers that support SSR
+require('dotenv').config();
 
 import { ApolloProvider } from '@apollo/react-common';
 import { getDataFromTree } from '@apollo/react-ssr';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import type { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import express from 'express';
@@ -16,7 +16,13 @@ import logger from './utils/logger';
 
 const basePort = process.env.PORT;
 
-function Html({ content, state }): JSX.Element {
+function Html({
+  content,
+  state,
+}: {
+  content: string;
+  state: NormalizedCacheObject;
+}): JSX.Element {
   return (
     <html>
       <body>

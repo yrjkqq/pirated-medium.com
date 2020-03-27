@@ -1,4 +1,4 @@
 {
   "eslint.enable": true,
-  "eslint.workingDirectories": ["./client"]
+  "eslint.workingDirectories": ["./apollo-client"]
 }

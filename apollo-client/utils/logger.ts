@@ -1,4 +1,5 @@
-import * as log4js from 'log4js';
+import log4js from 'log4js';
+import path from 'path';
 
 log4js.configure({
   appenders: {
@@ -6,18 +7,21 @@ log4js.configure({
       type: 'console',
       layout: {
         type: 'pattern',
-        pattern: '%[[%d{yyyy-MM-dd hh:mm:ss.SSS}] [%p] %f{1}:%l%] - %m',
+        pattern: '%[[%d{yyyy-MM-dd hh:mm:ss.SSS}] [%p] %f{2}:%l%] - %m',
       },
     },
-    pirated: { type: 'file', filename: 'logs/pirated.log' },
+    pirated: {
+      type: 'file',
+      filename: path.join(process.cwd(), '/logs/pirated.log'),
+    },
   },
   categories: {
     default: {
       appenders: ['default'],
-      level: process.env.LOG_LEVEL,
+      level: process.env.LOG_LEVEL || 'info',
       enableCallStack: true,
     },
-    pirated: { appenders: ['pirated'], level: 'error' },
+    pirated: { appenders: ['pirated'], level: 'info' },
   },
 });
 
