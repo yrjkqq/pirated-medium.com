@@ -2,3 +2,5 @@ server/logs
 .idea
 apollo-client/node_modules
 react-router-v4/node_modules
+apollo-client/dist
+apollo-client/logs

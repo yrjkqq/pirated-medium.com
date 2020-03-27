@@ -1,5 +1,5 @@
-import React from "react";
-import InnerPage from "./InnerPage";
+import React from 'react';
+import InnerPage from './InnerPage';
 const AnotherPage = () => {
   return (
     <div>

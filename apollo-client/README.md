@@ -1,6 +1,11 @@
 # reference
 
 1. [@apollo/react-ssr](https://www.apollographql.com/docs/react/performance/server-side-rendering/#server-side-rendering)
+2. [log4js](https://github.com/log4js-node/log4js-node)
+3. prettier [Integrating with Linters](https://prettier.io/docs/en/integrating-with-linters.html)
+4. webpack node interface [Node Interface](https://webpack.js.org/api/node/#installation)
+5. ts with babel [Integrating with Build Tools](https://www.typescriptlang.org/docs/handbook/integrating-with-build-tools.html#babel)
+6. [TypeScript-React-Conversion-Guide](https://github.com/Microsoft/TypeScript-React-Conversion-Guide#typescript-react-conversion-guide)
 
 # debug
 
