@@ -2,7 +2,7 @@ import React from 'react';
 
 export interface IButton {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick: (evt?: any) => void;
 }
 
 const Button = ({ children, onClick }: IButton) => {

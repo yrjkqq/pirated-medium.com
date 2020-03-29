@@ -21,12 +21,31 @@ const EXCHANGE_RATES = gql`
     }
   }
 `;
+
+const GET_USER = gql`
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      name
+    }
+  }
+`;
 const MainPage = () => {
   const { loading, error, data, refetch } = useQuery<Data>(EXCHANGE_RATES, {
     ssr: false,
   });
+  const { data: user } = useQuery(GET_USER, {
+    variables: {
+      id: '1',
+    },
+  });
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <p>
+        Loading...
+        <div>user: {user?.getUser?.name}</div>
+      </p>
+    );
   }
   if (error) {
     return <p>Error: {error}</p>;
@@ -50,6 +69,8 @@ const MainPage = () => {
             </p>
           </div>
         ))}
+
+      <div>user: {user?.getUser?.name}</div>
     </div>
   );
 };

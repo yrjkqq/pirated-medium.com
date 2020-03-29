@@ -26,7 +26,6 @@ const render = () => {
     <ApolloProvider client={client}>
       <BrowserRouter>
         <Layout />
-        <div>client</div>
       </BrowserRouter>
     </ApolloProvider>,
     MOUNT_NODE,

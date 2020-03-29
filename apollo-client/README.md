@@ -1,3 +1,16 @@
+# plan
+
+- apollo-server  🔗 golang backend api
+  - encapsulate ajax
+  - upload file with form and ajax: FormData
+  - upload file to golang backend directly
+  - fix cors with golang backend
+  - golang backend storage file in mysql
+  - query file with apollo-server and show
+  - send request with apollo-server
+- add styled-components
+- achieve medium.com homepage
+
 # reference
 
 1. [@apollo/react-ssr](https://www.apollographql.com/docs/react/performance/server-side-rendering/#server-side-rendering)
@@ -7,6 +20,8 @@
 5. [ts-node with VSCode](https://github.com/TypeStrong/ts-node#visual-studio-code)
 6. [VSCode debug with nodejs](https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_restarting-debug-sessions-automatically-when-source-is-edited)
 7. [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin)
+8. [scalar-types](https://graphql.org/learn/schema/#scalar-types)
+9. [gql queries](https://graphql.org/learn/queries/)
 
 
 # wiki

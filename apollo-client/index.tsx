@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import { ApolloProvider } from '@apollo/react-common';
 import { getDataFromTree } from '@apollo/react-ssr';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -8,6 +10,7 @@ import fetch from 'node-fetch';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router';
+import type * as RR from 'react-router';
 import { Html } from './components/Html';
 import { applyApolloServer } from './middlewares/apply-apollo-server';
 import {
@@ -46,7 +49,7 @@ app.use((req, res) => {
     cache: new InMemoryCache(),
   });
 
-  const context = {};
+  const context: RR.StaticRouterContext = {};
 
   const App = (
     <ApolloProvider client={client}>
@@ -55,6 +58,10 @@ app.use((req, res) => {
       </StaticRouter>
     </ApolloProvider>
   );
+
+  if (context.url) {
+    return res.redirect(context.statusCode as number, context.url);
+  }
 
   // rendering code (see below)
 
