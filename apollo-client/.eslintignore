@@ -2,4 +2,6 @@ logs
 .idea
 node_modules
 dist
+public
 logs
+package.json

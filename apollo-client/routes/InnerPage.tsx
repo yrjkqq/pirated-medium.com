@@ -1,10 +1,9 @@
 import React from 'react';
-import { useLocation } from 'react-router';
-import logger from '../utils/logger';
+// import { useLocation } from 'react-router';
+// import logger from '../utils/logger';
 const InnerPage = () => {
-  const location = useLocation();
-  logger.debug(location);
-  return <div>InnerPage</div>;
+  // const location = useLocation();
+  return <div>InnerPage123</div>;
 };
 
 export default InnerPage;

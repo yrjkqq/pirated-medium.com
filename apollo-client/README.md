@@ -4,8 +4,26 @@
 2. [log4js](https://github.com/log4js-node/log4js-node)
 3. prettier [Integrating with Linters](https://prettier.io/docs/en/integrating-with-linters.html)
 4. webpack node interface [Node Interface](https://webpack.js.org/api/node/#installation)
-5. ts with babel [Integrating with Build Tools](https://www.typescriptlang.org/docs/handbook/integrating-with-build-tools.html#babel)
-6. [TypeScript-React-Conversion-Guide](https://github.com/Microsoft/TypeScript-React-Conversion-Guide#typescript-react-conversion-guide)
+5. [ts-node with VSCode](https://github.com/TypeStrong/ts-node#visual-studio-code)
+6. [VSCode debug with nodejs](https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_restarting-debug-sessions-automatically-when-source-is-edited)
+7. [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin)
+
+
+# wiki
+
+1. ts-node-dev 和 ts-loader 为加快构建速度将 transpileOnly 设为 true, 但是会失去静态检查功能, 而 ts-node 启动有静态检查;
+webpack-dev-middleware 监听 client/index.tsx 文件, 该文件不会被 ts-node-dev 或 ts-node 监听, 所以不会被静态检查, 需要借助 fork-ts-checker-webpack-plugin 进行静态检查, 而且会检查所有文件
+2. ... 
+
+# dev
+
+```bash
+yarn dev
+```
+
+# debugger
+P
+F5 -> select: ts-node-dev
 
 # debug
 

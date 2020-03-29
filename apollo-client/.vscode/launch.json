@@ -16,7 +16,7 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "envFile": "${workspaceFolder}/.env",
-      "env": { "PORT": "3008", "NODE_ENV": "development" },
+      "env": { "PORT": "3009", "NODE_ENV": "development" },
     },
     {
       "type": "node",
