@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import React from 'react';
-// import logger from '../utils/logger';
+import { bLog } from '../utils/b-log';
 
 interface Book {
   title: string;
@@ -36,8 +36,7 @@ const MainPage = () => {
       <button
         style={{ padding: '10px' }}
         onClick={() => {
-          // logger.debug('clicked');
-          console.log('clicked');
+          bLog.info(new Error());
           refetch();
         }}
       >

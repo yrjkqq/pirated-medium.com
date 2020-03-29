@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 import { ApolloProvider } from '@apollo/react-common';
 import { getDataFromTree } from '@apollo/react-ssr';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -19,7 +17,7 @@ import {
 import Layout from './routes/Layout';
 import logger from './utils/logger';
 
-const basePort = process.env.PORT;
+const basePort = process.env.PORT as string;
 
 // Note you don't have to use any particular http server, but
 // we're using Express in this example
@@ -29,7 +27,7 @@ app.use(express.static('public'));
 
 const graphqlPath = applyApolloServer({ app });
 
-applyWebpackHot({ app });
+applyWebpackHot({ app }, basePort);
 
 app.use((req, res) => {
   const client = new ApolloClient({

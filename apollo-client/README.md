@@ -13,7 +13,9 @@
 
 1. ts-node-dev 和 ts-loader 为加快构建速度将 transpileOnly 设为 true, 但是会失去静态检查功能, 而 ts-node 启动有静态检查;
 webpack-dev-middleware 监听 client/index.tsx 文件, 该文件不会被 ts-node-dev 或 ts-node 监听, 所以不会被静态检查, 需要借助 fork-ts-checker-webpack-plugin 进行静态检查, 而且会检查所有文件
-2. ... 
+2. 使用 ts-node-dev 当文件修改时, 会自动重启, 此时浏览器的 HMR 会和 webpack-hot-middleware 断开连接, hot-reload 会失效, 解决办法
+   - 添加 .node-dev.json 忽略 ./client 文件夹, 此时修改该目录下的文件, 只会 webpack 重新构建, 而 ts-node-dev 不会重启, hot-reload 生效
+   - 或者是使用 ts-node 加载 webpack middleware
 
 # dev
 

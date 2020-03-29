@@ -13,7 +13,7 @@ const client = new ApolloClient({
   // Remember that this is the interface the SSR server will use to connect to the
   // API server, so we need to ensure it isn't firewalled, etc
   link: createHttpLink({
-    uri: `http://localhost:3009/graphql`,
+    uri: `http://localhost:${process.env.PORT}/graphql`,
     credentials: 'same-origin',
   }),
   cache: new InMemoryCache(),
@@ -26,6 +26,7 @@ const render = () => {
     <ApolloProvider client={client}>
       <BrowserRouter>
         <Layout />
+        <div>client</div>
       </BrowserRouter>
     </ApolloProvider>,
     MOUNT_NODE,
@@ -40,8 +41,5 @@ if (module.hot) {
   // modules.hot.accept does not accept dynamic dependencies,
   // have to be constants at compile-time
   // @ts-ignore
-  module.hot.accept(['../routes/Layout'], () => {
-    ReactDOM.unmountComponentAtNode(MOUNT_NODE);
-    render();
-  });
+  module.hot.accept();
 }

@@ -42,12 +42,14 @@ export function generateAssets({
   };
 }
 
-export const applyWebpackHot = ({ app }: ServerRegistration) => {
+export const applyWebpackHot = ({ app }: ServerRegistration, port: string) => {
+  const config = webpackConfig({ port });
+
   // @ts-ignore
-  const compiler = webpack(webpackConfig);
+  const compiler = webpack(config);
 
   const middleware = devMiddleware(compiler, {
-    publicPath: webpackConfig.output.publicPath,
+    publicPath: config.output.publicPath,
     // writeToDisk: true,
     serverSideRender: true,
   });
