@@ -36,7 +36,7 @@ const resolvers = {
   },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ typeDefs, resolvers, plugins: [myPlugin] });
 
 export const applyApolloServer = ({ app }: ServerRegistration): string => {
   server.applyMiddleware({ app });

@@ -8,7 +8,8 @@ import { BrowserRouter } from 'react-router-dom';
 import Layout from '../routes/Layout';
 
 const client = new ApolloClient({
-  ssrMode: true,
+  // 只在 ../index.tsx 中设置为 true, 用于首屏渲染, 而 hydrate 之后则由客户端接管; 如果在组件的 useQuery 设置 ssr: false, 则 ssr 不会调用, 而在客户端程度渲染完成后执行 gql 查询, 即下载下来的首屏 html 中组件状态为 loading, 然后浏览器发出 gql 请求, 再渲染数据
+  ssrMode: false,
   // Remember that this is the interface the SSR server will use to connect to the
   // API server, so we need to ensure it isn't firewalled, etc
   link: createHttpLink({
