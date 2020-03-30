@@ -10,7 +10,7 @@
       "name": "ts-node-dev",
       "type": "node",
       "request": "launch",
-      "runtimeExecutable": "ts-node-dev",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ts-node-dev",
       "args": ["--respawn", "--transpileOnly", "${workspaceFolder}/index.tsx"],
       "restart": true,
       "console": "integratedTerminal",
