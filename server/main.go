@@ -94,8 +94,8 @@ func main() {
 	if _, err := os.Stat(dirName); os.IsNotExist(err) {
 		os.Mkdir("logs", os.ModePerm)
 	}
-	ginLogFilename := "logs/gin.log"
-	gin.DefaultWriter = io.MultiWriter(generateLogWriter(ginLogFilename))
+	// ginLogFilename := "logs/gin.log"
+	// gin.DefaultWriter = io.MultiWriter(generateLogWriter(ginLogFilename))
 
 	debugLogFilename := "logs/debug.log"
 	logger := log.New(generateLogWriter(debugLogFilename), "[LOGGER-debug] ", log.Ldate|log.Ltime|log.Lshortfile)
@@ -123,7 +123,7 @@ func main() {
 		c.Writer.Header().Add("Access-Control-Allow-Headers", "Content-Type")
 		c.Writer.Header().Add("Access-Control-Max-Age", "1728000")
 		c.JSON(http.StatusOK, nil)
-	})u
+	})
 	r.POST("/form", func(c *gin.Context) {
 		username := c.PostForm("username")
 		password := c.DefaultPostForm("password", "000000")
@@ -282,7 +282,7 @@ func main() {
 	// r.Run() // listen and serve on 0.0.0.0:8080
 	// graceful shutdown
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":8088",
 		Handler: r,
 	}
 	go func() {
@@ -301,7 +301,7 @@ func main() {
 	<-quit
 	logger.Println("Shutdown Server ...")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 0*time.Second)
 	defer cancel()
 
 	if err := srv.Shutdown(ctx); err != nil {
@@ -310,7 +310,7 @@ func main() {
 	// catching ctx.Done(). timeout of 5 seconds.
 	select {
 	case <-ctx.Done():
-		logger.Println("timeout of 1 seconds")
+		logger.Println("timeout of 0 seconds")
 	}
 	logger.Println("Server exiting")
 

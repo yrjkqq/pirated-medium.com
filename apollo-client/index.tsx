@@ -19,19 +19,34 @@ import {
 } from './middlewares/apply-webpack-hot';
 import Layout from './routes/Layout';
 import logger from './utils/logger';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const basePort = process.env.PORT as string;
 const apiUrl = process.env.API_URL as string;
+const restUrl = process.env.REST_URL as string;
 
 // Note you don't have to use any particular http server, but
 // we're using Express in this example
 const app = express();
 
+app.use(
+  restUrl,
+  // @ts-ignore
+  createProxyMiddleware({
+    target: apiUrl,
+    changeOrigin: true,
+    pathRewrite: {
+      [`^${restUrl}`]: '', // remove base path
+    },
+    logLevel: process.env.LOG_LEVEL,
+  }),
+);
+
 app.use(express.static('public'));
 
 const graphqlPath = applyApolloServer({ app });
 
-applyWebpackHot({ app }, basePort, apiUrl);
+applyWebpackHot({ app }, basePort, restUrl);
 
 app.use((req, res) => {
   const client = new ApolloClient({

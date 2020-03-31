@@ -64,7 +64,7 @@ function addURLParams(
   return url;
 }
 
-const apiUrl = String(process.env.API_URL);
+const apiUrl = String(process.env.REST_URL);
 export function request({
   url,
   baseUrl = apiUrl,
