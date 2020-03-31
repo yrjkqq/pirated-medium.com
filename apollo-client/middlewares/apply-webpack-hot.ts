@@ -42,8 +42,12 @@ export function generateAssets({
   };
 }
 
-export const applyWebpackHot = ({ app }: ServerRegistration, port: string) => {
-  const config = webpackConfig({ port });
+export const applyWebpackHot = (
+  { app }: ServerRegistration,
+  port: string,
+  apiUrl: string,
+) => {
+  const config = webpackConfig({ port, apiUrl });
 
   // @ts-ignore
   const compiler = webpack(config);

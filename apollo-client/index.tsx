@@ -21,6 +21,7 @@ import Layout from './routes/Layout';
 import logger from './utils/logger';
 
 const basePort = process.env.PORT as string;
+const apiUrl = process.env.API_URL as string;
 
 // Note you don't have to use any particular http server, but
 // we're using Express in this example
@@ -30,7 +31,7 @@ app.use(express.static('public'));
 
 const graphqlPath = applyApolloServer({ app });
 
-applyWebpackHot({ app }, basePort);
+applyWebpackHot({ app }, basePort, apiUrl);
 
 app.use((req, res) => {
   const client = new ApolloClient({

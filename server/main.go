@@ -116,9 +116,18 @@ func main() {
 		c.String(http.StatusOK, "%s is %s", name, role)
 	})
 
+	// CORS: Preflighted Reqeusts
+	r.OPTIONS("/form", func(c *gin.Context) {
+		c.Writer.Header().Add("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Add("Access-Control-Allow-Methods", "POST, GET")
+		c.Writer.Header().Add("Access-Control-Allow-Headers", "Content-Type")
+		c.Writer.Header().Add("Access-Control-Max-Age", "1728000")
+		c.JSON(http.StatusOK, nil)
+	})u
 	r.POST("/form", func(c *gin.Context) {
 		username := c.PostForm("username")
-		password := c.DefaultPostForm("username", "000000")
+		password := c.DefaultPostForm("password", "000000")
+		c.Writer.Header().Add("Access-Control-Allow-Origin", "*")
 		c.JSON(http.StatusOK, gin.H{
 			"username": username,
 			"password": password,

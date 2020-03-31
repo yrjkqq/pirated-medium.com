@@ -12,7 +12,7 @@ var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 //   },
 // };
 
-var browserConfig = ({ port }) => {
+var browserConfig = ({ port, apiUrl }) => {
   return {
     mode: 'development',
     devtool: 'inline-source-map',
@@ -45,8 +45,13 @@ var browserConfig = ({ port }) => {
     },
     plugins: [
       new webpack.DefinePlugin({
+        // If the value is a string it will be used as a code fragment.
         __isBrowser__: 'true',
-        'process.env.PORT': port,
+      }),
+      new webpack.EnvironmentPlugin({
+        NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
+        PORT: port,
+        API_URL: apiUrl,
       }),
       new webpack.optimize.OccurrenceOrderPlugin(),
       new webpack.HotModuleReplacementPlugin(),
