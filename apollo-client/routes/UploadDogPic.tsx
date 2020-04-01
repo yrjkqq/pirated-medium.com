@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { bLog } from '../utils/b-log';
 import { request } from '../utils/request';
-import { FORM_CONTENT_TYPE } from '../utils/constants';
 
 const UploadDogPic = () => {
+  const fileInput = useRef<HTMLInputElement>(null);
   return (
     <form
       method="post"
@@ -12,16 +12,18 @@ const UploadDogPic = () => {
         evt.preventDefault();
         bLog.debug();
         try {
+          const fd = new FormData();
+          if (
+            fileInput.current &&
+            fileInput.current.files &&
+            fileInput.current.files.length > 0
+          ) {
+            fd.append(fileInput.current.name, fileInput.current?.files[0]);
+          }
           const resp = await request({
-            url: 'form',
+            url: 'upload1',
             method: 'post',
-            headers: {
-              ...FORM_CONTENT_TYPE,
-            },
-            data: {
-              username: 'qiu',
-              password: 'yuan',
-            },
+            data: fd,
           });
           bLog.info(resp);
         } catch (error) {
@@ -34,7 +36,7 @@ const UploadDogPic = () => {
       <br />
       Email: <input type="email" name="email" />
       <br />
-      Files: <input type="file" name="file" />
+      Files: <input type="file" name="file" ref={fileInput} />
       <br />
       <input type="submit" />
     </form>

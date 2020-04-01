@@ -203,7 +203,9 @@ func main() {
 	r.POST("/upload1", func(c *gin.Context) {
 		file, err := c.FormFile("file")
 		if err != nil {
-			log.Fatal(err)
+			logger.Println(err)
+			c.String(http.StatusInternalServerError, fmt.Sprintf("files upload filed: %v", err))
+			return
 		}
 		c.String(http.StatusOK, "%s uploaded!", file.Filename)
 	})

@@ -1,7 +1,11 @@
 import contentType from 'content-type';
 import { bLog } from './b-log';
-import { JSON_CONTENT_TYPE } from './constants';
-import { isJsonContentType, serializeFormData } from './tools';
+import { JSON_CONTENT_TYPE, CONTENT_TYPE_HEADER } from './constants';
+import {
+  isJsonContentType,
+  isFormContentType,
+  serializeFormData,
+} from './tools';
 
 /**
  * create ajax
@@ -86,10 +90,12 @@ export function request({
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
         if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
-          const responseType = xhr.getResponseHeader('content-type');
+          const responseType = xhr.getResponseHeader(
+            CONTENT_TYPE_HEADER.toLowerCase(),
+          );
           bLog.debug(responseType);
           const { type } = contentType.parse(responseType);
-          if (type === 'application/json') {
+          if (type === JSON_CONTENT_TYPE[CONTENT_TYPE_HEADER]) {
             try {
               const result = JSON.parse(xhr.responseText);
               resolve(result);
@@ -103,23 +109,31 @@ export function request({
             });
           }
         } else {
-          bLog.error(xhr.status);
+          bLog.error(xhr.responseText);
           reject(xhr.status);
         }
       }
     };
     xhr.open(method, `${baseUrl}/${url}`, true);
-    for (const key of Object.keys(headers)) {
-      xhr.setRequestHeader(key, headers[key]);
-    }
     xhr.timeout = timeout;
     xhr.ontimeout = function () {
       bLog.error('request timeout!');
     };
+    if (data && data instanceof FormData) {
+      // 上传文件时不能手动设置 multipart/form-data 需要浏览器自动设置, 此时会自动带上 boundary 才能上传成功;
+      // Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryEydSvjBLSg3RBw6B
+      xhr.send(data);
+      return;
+    }
+    for (const key of Object.keys(headers)) {
+      xhr.setRequestHeader(key, headers[key]);
+    }
     if (isJsonContentType({ headers })) {
       xhr.send(JSON.stringify(data));
+    } else if (isFormContentType({ headers })) {
+      xhr.send(serializeFormData(data));
     } else {
-      xhr.send(serializeFormData({ params: data }));
+      xhr.send(data);
     }
   });
 }

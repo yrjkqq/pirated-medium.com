@@ -1,3 +1,9 @@
+import {
+  FORM_CONTENT_TYPE,
+  CONTENT_TYPE_HEADER,
+  JSON_CONTENT_TYPE,
+} from './constants';
+
 /**
  * is form or json content-type?
  */
@@ -6,7 +12,18 @@ export function isJsonContentType({
 }: {
   headers: { [key: string]: string };
 }) {
-  return headers['Content-Type'] === 'application/json';
+  return (
+    headers[CONTENT_TYPE_HEADER] === JSON_CONTENT_TYPE[CONTENT_TYPE_HEADER]
+  );
+}
+export function isFormContentType({
+  headers,
+}: {
+  headers: { [key: string]: string };
+}) {
+  return (
+    headers[CONTENT_TYPE_HEADER] === FORM_CONTENT_TYPE[CONTENT_TYPE_HEADER]
+  );
 }
 
 /**
