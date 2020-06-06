@@ -24,7 +24,7 @@
     "apollo-link-http": "^1.5.16",
     "apollo-link-schema": "^1.2.4",
     "apollo-server": "^2.11.0",
-    "apollo-server-express": "^2.11.0",
+    "apollo-server-express": "^2.14.2",
     "content-type": "^1.0.4",
     "express": "^4.17.1",
     "graphql": "^14.6.0",
