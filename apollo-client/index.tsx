@@ -6,6 +6,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import express from 'express';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import fetch from 'node-fetch';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -17,9 +18,9 @@ import {
   applyWebpackHot,
   generateAssets,
 } from './middlewares/apply-webpack-hot';
-import Layout from './routes/Layout';
+import Root from './routes/Root';
 import logger from './utils/logger';
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import { ServerStyleSheet } from './styles/styled';
 
 const basePort = process.env.PORT as string;
 const apiUrl = process.env.API_URL as string;
@@ -70,7 +71,7 @@ app.use((req, res) => {
   const App = (
     <ApolloProvider client={client}>
       <StaticRouter location={req.url} context={context}>
-        <Layout />
+        <Root />
       </StaticRouter>
     </ApolloProvider>
   );
@@ -85,20 +86,33 @@ app.use((req, res) => {
   getDataFromTree(App)
     .then(() => {
       // We are ready to render for real
-      const content = ReactDOMServer.renderToString(App);
-      const initialState = client.extract();
-      const { jsAssets, cssAssets } = generateAssets({ res });
-      const html = (
-        <Html
-          content={content}
-          state={initialState}
-          jsAssets={jsAssets}
-          cssAssets={cssAssets}
-        />
-      );
-      res.status(200);
-      res.send(`<!doctype html>\n${ReactDOMServer.renderToString(html)}`);
-      res.end();
+      const sheet = new ServerStyleSheet();
+      try {
+        const content = ReactDOMServer.renderToString(sheet.collectStyles(App));
+        const styleTags = sheet.getStyleElement();
+
+        // logger.info(styleTags);
+        const initialState = client.extract();
+        const { jsAssets, cssAssets } = generateAssets({ res });
+        const html = (
+          <Html
+            content={content}
+            state={initialState}
+            jsAssets={jsAssets}
+            cssAssets={cssAssets}
+            styleTags={styleTags}
+          />
+        );
+        res.status(200);
+        res.send(`<!doctype html>\n${ReactDOMServer.renderToString(html)}`);
+        res.end();
+      } catch (error) {
+        // handle error
+        logger.error(error);
+        throw new Error(error);
+      } finally {
+        sheet.seal();
+      }
     })
     .catch((error) => {
       logger.error('failed: ', error);

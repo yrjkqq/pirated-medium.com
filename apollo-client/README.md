@@ -1,10 +1,10 @@
 # plan
 
 - apollo-server  🔗 golang backend api
-  - encapsulate ajax
-  - upload file with form and ajax: FormData
-  - upload file to golang backend directly
-  - fix cors with golang backend
+  - encapsulate ajax 🆗
+  - upload file with form and ajax: FormData 🆗
+  - upload file to golang backend directly 🆗
+  - fix cors with golang backend 🆗
   - golang backend storage file in mysql
   - query file with apollo-server and show
   - send request with apollo-server

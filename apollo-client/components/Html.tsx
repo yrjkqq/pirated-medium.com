@@ -6,10 +6,12 @@ export function Html({
   state,
   jsAssets = '',
   cssAssets = '',
+  styleTags,
 }: {
   content: string;
   jsAssets?: string;
   cssAssets?: string;
+  styleTags?: React.ReactNode;
   state: NormalizedCacheObject;
 }): JSX.Element {
   return (
@@ -29,6 +31,7 @@ export function Html({
 
         <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" href="normalize.css" />
+        {styleTags}
         <style dangerouslySetInnerHTML={{ __html: cssAssets }} />
       </head>
       <body>

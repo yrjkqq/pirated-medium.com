@@ -6,10 +6,19 @@ import { Link } from 'react-router-dom';
 import { redirectRoutes, routes } from './index';
 import RedirectWithStatus from './RedirectWithStatus';
 import type { RedirectProps } from './RedirectWithStatus';
+import styled from '../styles/styled';
+
+const Container = styled.main`
+  background-color: #fff;
+`;
+
+const Nav = styled.nav`
+  display: flex;
+`;
 
 const Layout = () => (
-  <div>
-    <nav>
+  <Container>
+    <Nav>
       <ul>
         <li>
           <Link to="/">Home</Link>
@@ -21,7 +30,7 @@ const Layout = () => (
           <Link to="/upload-dog-pic">Upload dog pic</Link>
         </li>
       </ul>
-    </nav>
+    </Nav>
 
     <Switch>
       {redirectRoutes.map((props: RedirectProps) => (
@@ -31,7 +40,7 @@ const Layout = () => (
         <Route key={name} exact={exact} {...rest} />
       ))}
     </Switch>
-  </div>
+  </Container>
 );
 
 export default Layout;

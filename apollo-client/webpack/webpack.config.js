@@ -33,6 +33,10 @@ var browserConfig = ({ port, restUrl }) => {
           loader: 'ts-loader',
           options: {
             transpileOnly: true,
+            getCustomTransformers: path.join(
+              __dirname,
+              './webpack.ts-transformers.js',
+            ),
           },
         },
 

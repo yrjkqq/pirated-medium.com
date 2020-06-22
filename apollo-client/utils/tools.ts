@@ -45,3 +45,36 @@ export function serializeFormData({
   }
   return result.join('&');
 }
+
+/**
+ * 跨浏览器的事件处理程序
+ * @author js高程 p354
+ */
+export const EventUtil = {
+  addHandler: function (
+    element: any,
+    type: string,
+    handler: EventHandlerNonNull,
+  ) {
+    if (element.addEventListener) {
+      element.addEventListener(type, handler, false);
+    } else if (element.attachEvent) {
+      element.attachEvent(`on${type}`, handler);
+    } else {
+      element[`on${type}`] = handler;
+    }
+  },
+  removeHandler: function (
+    element: any,
+    type: string,
+    handler: EventHandlerNonNull,
+  ) {
+    if (element.removeEventListener) {
+      element.removeEventListener(type, handler, false);
+    } else if (element.detachEvent) {
+      element.detachEvent(`on${type}`);
+    } else {
+      element[`on${type}`] = null;
+    }
+  },
+};
